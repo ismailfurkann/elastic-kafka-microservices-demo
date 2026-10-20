@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:4200", methods = org.springframework.web.bind.annotation.RequestMethod.POST, allowedHeaders = "Content-Type")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

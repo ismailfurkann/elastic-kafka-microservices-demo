@@ -36,6 +36,10 @@ services:
     container_name: user-service
     ports:
       - "8081:8081"
+    environment:
+      LOGGING_FILE_NAME: /var/log/microservices/user-service.log
+    volumes:
+      - microservice-logs:/var/log/microservices
     depends_on:
       - kafka
 
@@ -45,6 +49,10 @@ services:
     container_name: order-service
     ports:
       - "8082:8082"
+    environment:
+      LOGGING_FILE_NAME: /var/log/microservices/order-service.log
+    volumes:
+      - microservice-logs:/var/log/microservices
     depends_on:
       - kafka
 
@@ -56,8 +64,22 @@ services:
       - "8083:8083"
     environment:
       SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
+      LOGGING_FILE_NAME: /var/log/microservices/notification-service.log
+    volumes:
+      - microservice-logs:/var/log/microservices
     depends_on:
       - kafka
+      - elasticsearch
+
+  fluent-bit:
+    image: fluent/fluent-bit:4.0.11
+    container_name: fluent-bit
+    restart: unless-stopped
+    volumes:
+      - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - microservice-logs:/var/log/microservices:ro
+      - fluent-bit-state:/var/lib/fluent-bit
+    depends_on:
       - elasticsearch
 
   elasticsearch:
@@ -84,3 +106,6 @@ services:
 
 volumes:
   elasticsearch-data:
+  microservice-logs:
+    name: microservice-logs
+  fluent-bit-state:

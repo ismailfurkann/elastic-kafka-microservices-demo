@@ -1,0 +1,22 @@
+<main class="container">
+  <h1>Microservices Demo</h1>
+  <p>Spring Boot + Kafka + Elasticsearch</p>
+  <form class="card" #userForm="ngForm" (ngSubmit)="createUser(userForm)">
+    <h2>Create User</h2>
+    <label for="name">Name</label>
+    <input id="name" name="name" [(ngModel)]="user.name" required pattern=".*\S.*" autocomplete="name">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" [(ngModel)]="user.email" required email autocomplete="email">
+    <button type="submit" [disabled]="userForm.invalid || userPending()">{{ userPending() ? 'Submitting...' : 'Create User' }}</button>
+    <p role="status" aria-live="polite">{{ userMessage() }}</p>
+  </form>
+  <form class="card" #orderForm="ngForm" (ngSubmit)="createOrder(orderForm)">
+    <h2>Create Order</h2>
+    <label for="product">Product</label>
+    <input id="product" name="product" [(ngModel)]="order.product" required pattern=".*\S.*">
+    <label for="price">Price (whole number)</label>
+    <input id="price" name="price" type="number" [(ngModel)]="order.price" required min="0" max="2147483647" step="1" pattern="[0-9]+">
+    <button type="submit" [disabled]="orderForm.invalid || orderPending()">{{ orderPending() ? 'Submitting...' : 'Create Order' }}</button>
+    <p role="status" aria-live="polite">{{ orderMessage() }}</p>
+  </form>
+</main>

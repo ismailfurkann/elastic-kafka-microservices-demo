@@ -42,3 +42,14 @@ Thumbs.db
 
 ### Frontend dependencies (for later steps) ###
 node_modules/
+
+# Local secrets and generated output
+.env.*
+!.env.example
+*.pem
+*.key
+**/dist/
+**/.angular/
+**/coverage/
+**/out-tsc/
+logs/
